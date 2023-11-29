@@ -27,21 +27,28 @@ jobs:
       - name: Deploy Project Artifacts to Vercel
         run: |
           url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
+          vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" my-next-app-bravo-blond.vercel.app
+  Deploy-Uat:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install Dependencies
+        run: npm install
+        working-directory: my-next-app
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --git-branch=uat --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build Project Artifacts
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy Project Artifacts to Vercel
+        run: |
+          url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
           vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" my-next-app-delta-blond.vercel.app
-  # Deploy-Uat:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #       with:
-  #         path: my-next-app
-  #     - name: Install Vercel CLI
-  #       run: npm install --global vercel@latest
-  #     - name: Pull Vercel Environment Information
-  #       run: vercel pull --yes --environment=preview --git-branch=uat --token=${{ secrets.VERCEL_TOKEN }}
-  #     - name: Build Project Artifacts
-  #       run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-  #     - name: Deploy Project Artifacts to Vercel
-  #       run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
   # # Deploy-Production:
   #   runs-on: ubuntu-latest
   #   steps:
