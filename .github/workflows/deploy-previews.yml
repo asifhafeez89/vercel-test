@@ -17,14 +17,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '16'
+      - name: Install Dependencies
+        run: npm install
+        working-directory: my-next-app
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
+        working-directory: my-next-app
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --git-branch=test --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: my-next-app
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: my-next-app
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: my-next-app
   Deploy-Uat:
     runs-on: ubuntu-latest
     steps:
