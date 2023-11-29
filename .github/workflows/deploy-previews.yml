@@ -17,6 +17,7 @@ jobs:
           node-version: '16'
       - name: Install Dependencies
         run: npm install
+        working-directory: my-next-app
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: Pull Vercel Environment Information
