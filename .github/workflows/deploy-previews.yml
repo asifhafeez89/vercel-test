@@ -27,7 +27,7 @@ jobs:
       - name: Deploy Project Artifacts to Vercel
         run: |
           url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
-          vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" my-next-app-delta-blond.vercel.app
+          vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" my-next-app-bravo-blond.vercel.app
   Deploy-Uat:
     runs-on: ubuntu-latest
     steps:
