@@ -7,7 +7,7 @@ on:
     branches:
       - main
 jobs:
-  Deploy-Test:
+  deploy-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -28,8 +28,16 @@ jobs:
         run: |
           url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
           vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" my-next-app-bravo-blond.vercel.app
-  Deploy-Uat:
-    needs: Deploy-Test
+
+  end-to-end-testing:
+    needs: deploy-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Running End-to-End Tests
+        run: echo "Running tests"
+
+  deploy-uat:
+    needs: end-to-end-testing
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -49,9 +57,10 @@ jobs:
       - name: Deploy Project Artifacts to Vercel
         run: |
           url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
-          vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" my-next-app-delta-blond.vercel.app
-  Deploy-Production:
-    needs: Deploy-Uat
+          vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" my-next-app-charlie-blond.vercel.app
+
+  deploy-production:
+    needs: deploy-uat
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -70,5 +79,3 @@ jobs:
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
-
-  
