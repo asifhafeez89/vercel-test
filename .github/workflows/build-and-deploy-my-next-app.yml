@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy-to-test:
-    uses: ./.github/workflows/reusable-workflows/build-and-deploy.yml
+    uses: ./.github/workflowss/build-and-deploy.yml
     with:
       vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
       git-branch: 'main'
@@ -20,7 +20,7 @@ jobs:
         run: echo "Running tests"
   deploy-to-uat:
     needs: end-to-end-testing
-    uses: ./.github/workflows/reusable-workflows/build-and-deploy-booking.yml
+    uses: ./.github/workflows/build-and-deploy-booking.yml
     with:
       vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
       git-branch: 'main'
