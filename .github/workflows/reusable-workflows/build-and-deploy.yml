@@ -1,0 +1,56 @@
+name: Build and deploy booking
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    inputs:
+      # Define inputs for configuration
+      vercel-project-id:
+        description: 'Vercel project ID'
+        required: true
+      vercel-org-id:
+        description: 'Vercel organization ID'
+        default: ${{ secrets.VERCEL_ORG_ID }}
+      git-branch:
+        description: 'Git branch for deployment'
+        required: true
+      deployment-url:
+        description: 'URL for deployment'
+        required: true
+      vercel-team-scope:
+        description: 'Vercel team scope'
+        default: 'collinson-x'
+        
+
+    env:
+      VERCEL_PROJECT_ID: ${{ inputs.vercel-project-id }}
+      VERCEL_ORG_ID: ${{ inputs.vercel-org-id }}
+
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install
+        working-directory: my-next-app
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Deploy to Vercel
+        run: |
+          vercel pull --yes --environment=preview --git-branch=${{ inputs.git-branch }} --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ inputs.vercel-team-scope }}
+          vercel build --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ inputs.vercel-team-scope }}
+          url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}) --scope=${{ inputs.vercel-team-scope }}"
+          vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" ${{ inputs.deployment-url }} --scope=${{ inputs.vercel-team-scope }}

@@ -1,0 +1,27 @@
+name: Build and deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-to-test:
+    uses: ./.github/workflows/reusable-workflows/build-and-deploy.yml
+    with:
+      vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+      git-branch: 'main'
+      deployment-url: 'my-next-app-bravo-blond.vercel.app'
+  end-to-end-testing:
+    needs: deploy-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Running End-to-End Tests
+        run: echo "Running tests"
+  deploy-to-uat:
+    needs: end-to-end-testing
+    uses: ./.github/workflows/reusable-workflows/build-and-deploy-booking.yml
+    with:
+      vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+      git-branch: 'main'
+      deployment-url: 'my-next-app-charlie-blond.vercel.app'
