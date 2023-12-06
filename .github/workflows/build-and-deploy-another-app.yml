@@ -1,21 +1,22 @@
-name: Build and deploy my next app
+name: Build and deploy another app
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'my-next-app/**'
+      - 'another-app/**'
+
 
 jobs:
   deploy-to-test:
     uses: ./.github/workflows/build-and-deploy.yml
     with:
       git-branch: 'test'
-      deployment-url: 'my-next-app-bravo-blond.vercel.app'
+      deployment-url: 'another-app-bravo-blond.vercel.app'
     secrets:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.MY_NEXT_APP_PROJECT_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.ANOTHER_APP_PROJECT_ID }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
   end-to-end-testing:
     needs: deploy-to-test
@@ -28,8 +29,9 @@ jobs:
     uses: ./.github/workflows/build-and-deploy.yml
     with:
       git-branch: 'uat'
-      deployment-url: 'my-next-app-charlie-blond.vercel.app'
+      deployment-url: 'another-app-charlie-blond.vercel.app'
     secrets:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.MY_NEXT_APP_PROJECT_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.ANOTHER_APP_PROJECT_ID }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      
