@@ -8,7 +8,7 @@ export default function Home() {
     <main className={styles.main}>
       <div className={styles.description}>
         <p>
-          Deploying in the office. Environment deployed is: {environment}&nbsp;
+          Deploy in demo: {environment}&nbsp;
           <code className={styles.code}>app/page.tsx</code>
         </p>
         <div>
