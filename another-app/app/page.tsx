@@ -8,7 +8,7 @@ export default function Home() {
     <main className={styles.main}>
       <div className={styles.description}>
         <p>
-          deploy in the office environment is {environment}&nbsp;
+          deploy in the office. environment {environment}&nbsp;
           <code className={styles.code}>app/page.tsx</code>
         </p>
         <div>
