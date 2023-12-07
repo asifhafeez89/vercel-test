@@ -8,7 +8,7 @@ export default function Home() {
     <main className={styles.main}>
       <div className={styles.description}>
         <p>
-          should only deploy another app to {environment}&nbsp;
+          deploy in the office environment is {environment}&nbsp;
           <code className={styles.code}>app/page.tsx</code>
         </p>
         <div>
