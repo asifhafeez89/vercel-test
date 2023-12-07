@@ -55,5 +55,5 @@ jobs:
       
     - name: Vercel Deploy
       run: |
-        url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}) 
+        url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
         vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" ${{ inputs.deployment-url }} --scope=${{ inputs.vercel-team-scope }}
