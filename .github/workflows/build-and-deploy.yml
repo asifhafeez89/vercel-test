@@ -46,10 +46,14 @@ jobs:
 
     - name: Install Vercel CLI
       run: npm install --global vercel@latest
-
-    - name: Deploy to Vercel
+    
+    - name: Vercel Pull
+      run: vercel pull --yes --environment=preview --git-branch=${{ inputs.git-branch }} --token=${{ secrets.VERCEL_TOKEN }}  --scope={{ inputs.vercel-team-scope }}
+    
+    - name: Vercel Build
+      run: vercel build --token=${{ secrets.VERCEL_TOKEN }} --scope={{ inputs.vercel-team-scope }}
+      
+    - name: Vercel Deploy
       run: |
-        vercel pull --yes --environment=preview --git-branch=${{ inputs.git-branch }} --token=${{ secrets.VERCEL_TOKEN }} 
-        vercel build --token=${{ secrets.VERCEL_TOKEN }} 
-        url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})" 
-        vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" ${{ inputs.deployment-url }} 
+        url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})" --scope={{ inputs.vercel-team-scope }}
+        vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" ${{ inputs.deployment-url }} --scope={{ inputs.vercel-team-scope }}
