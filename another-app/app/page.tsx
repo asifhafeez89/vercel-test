@@ -8,7 +8,7 @@ export default function Home() {
     <main className={styles.main}>
       <div className={styles.description}>
         <p>
-          Deploy in demo: {environment}&nbsp;
+          Deploy in front of Kouros: {environment}&nbsp;
           <code className={styles.code}>app/page.tsx</code>
         </p>
         <div>
